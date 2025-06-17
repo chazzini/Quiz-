@@ -21,6 +21,9 @@ const QuizScreen = () => {
     console.warn("selected:", option);
     setSelectedOption(option);
   };
+
+  const handleCustomButtonPress = () => {};
+  const handleCustomButtonLongPress = () => {};
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={style.container}>
@@ -43,18 +46,18 @@ const QuizScreen = () => {
           <Text style={style.duration}>20sec</Text>
         </View>
 
-        <CustomButton />
-
-        <TouchableOpacity onPress={() => {}}>
-          <View style={style.buttonContainer}>
-            <Text style={style.buttonText}>Next</Text>
+        <CustomButton
+          title="Next"
+          onPress={handleCustomButtonPress}
+          onLongPress={handleCustomButtonLongPress}
+          rightIcon={
             <MaterialCommunityIcons
               name="arrow-right"
               size={24}
               color="white"
             />
-          </View>
-        </TouchableOpacity>
+          }
+        />
       </View>
     </SafeAreaView>
   );
@@ -86,6 +89,11 @@ const style = StyleSheet.create({
     color: "white",
     flex: 1,
     textAlign: "center",
+  },
+  buttonIcon: {
+    position: "absolute",
+    top: 20,
+    right: 10,
   },
   duration: {
     marginTop: 10,

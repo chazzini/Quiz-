@@ -1,12 +1,27 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacityProps,
+  TouchableOpacity,
+} from "react-native";
+import React, { ReactNode } from "react";
 
-const CustomButton = () => {
+type CustomButton = {
+  title: string;
+  rightIcon?: ReactNode;
+} & TouchableOpacityProps;
+
+const CustomButton = ({
+  title,
+  rightIcon,
+  ...TouchableOpacityProps
+}: CustomButton) => {
   return (
-    <TouchableOpacity onPress={() => {}}>
+    <TouchableOpacity {...TouchableOpacityProps}>
       <View style={style.buttonContainer}>
-        <Text style={style.buttonText}>Next</Text>
-        {/* <MaterialCommunityIcons name="arrow-right" size={24} color="white" /> */}
+        <Text style={style.buttonText}>{title}</Text>
+        <View style={style.rightIcon}>{rightIcon}</View>
       </View>
     </TouchableOpacity>
   );
@@ -30,5 +45,10 @@ const style = StyleSheet.create({
     color: "white",
     flex: 1,
     textAlign: "center",
+  },
+  rightIcon: {
+    position: "absolute",
+    top: 20,
+    right: 10,
   },
 });
