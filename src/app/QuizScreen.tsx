@@ -6,22 +6,44 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import React from "react";
-import QuestionCard from "../components/QuestionCard";
+import React, { useState } from "react";
+import Card from "../components/Card";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import questions from "../questions";
+import AnswerOption from "../components/AnswerOption";
+import CustomButton from "../components/CustomButton";
 
 const question = questions[0];
 
 const QuizScreen = () => {
+  const [selectedOption, setSelectedOption] = useState("");
+  const handleSelectedOption = (option: string) => {
+    console.warn("selected:", option);
+    setSelectedOption(option);
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={style.container}>
         <Text style={style.position}>Question 1/5</Text>
         <View style={{ alignItems: "center", width: "100%" }}>
-          <QuestionCard question={question} />
+          <Card question={question}>
+            <View style={{ gap: 10 }}>
+              {question.options.map((option) => {
+                return (
+                  <AnswerOption
+                    key={option}
+                    value={option}
+                    isSelected={selectedOption === option}
+                    onPress={handleSelectedOption}
+                  />
+                );
+              })}
+            </View>
+          </Card>
           <Text style={style.duration}>20sec</Text>
         </View>
+
+        <CustomButton />
 
         <TouchableOpacity onPress={() => {}}>
           <View style={style.buttonContainer}>

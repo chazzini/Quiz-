@@ -1,38 +1,21 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useState } from "react";
-import AnswerOption from "./AnswerOption";
+import React, { PropsWithChildren } from "react";
 import { Question } from "../type";
-interface QuestionCard {
+import {} from "react";
+interface Card {
   question: Question;
 }
 
-const QuestionCard = ({ question }: QuestionCard) => {
-  const [selectedOption, setSelectedOption] = useState("");
-  const handleSelectedOption = (option: string) => {
-    console.warn("selected:", option);
-    setSelectedOption(option);
-  };
-
+const Card = ({ question, children }: PropsWithChildren<Card>) => {
   return (
     <View style={style.questionCard}>
       <Text style={style.question}>{question.title}</Text>
-
-      <View style={{ gap: 10 }}>
-        {question.options.map((option) => {
-          return (
-            <AnswerOption
-              value={option}
-              isSelected={selectedOption === option}
-              onPress={handleSelectedOption}
-            />
-          );
-        })}
-      </View>
+      {children}
     </View>
   );
 };
 
-export default QuestionCard;
+export default Card;
 
 const style = StyleSheet.create({
   questionCard: {
