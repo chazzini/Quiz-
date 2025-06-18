@@ -3,13 +3,14 @@ import React, { PropsWithChildren } from "react";
 import { Question } from "../type";
 import {} from "react";
 interface Card {
-  question: Question;
+  question?: Question;
+  title?: string;
 }
 
-const Card = ({ question, children }: PropsWithChildren<Card>) => {
+const Card = ({ question, title, children }: PropsWithChildren<Card>) => {
   return (
     <View style={style.questionCard}>
-      <Text style={style.question}>{question.title}</Text>
+      <Text style={style.question}>{question ? question.title : title}</Text>
       {children}
     </View>
   );

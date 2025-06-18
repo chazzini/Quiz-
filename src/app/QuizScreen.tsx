@@ -1,61 +1,72 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import React, { useState } from "react";
 import Card from "../components/Card";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import questions from "../questions";
 import AnswerOption from "../components/AnswerOption";
 import CustomButton from "../components/CustomButton";
-
-const question = questions[0];
+import { Question } from "../type";
 
 const QuizScreen = () => {
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState<string | undefined>();
+  const [questionIndex, setQuestionIndex] = useState<number>(0);
+
   const handleSelectedOption = (option: string) => {
-    console.warn("selected:", option);
     setSelectedOption(option);
   };
 
-  const handleCustomButtonPress = () => {};
+  let question = questions[questionIndex];
+
+  const onNext = () => {
+    setQuestionIndex((prev) => prev + 1);
+  };
   const handleCustomButtonLongPress = () => {};
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={style.container}>
-        <Text style={style.position}>Question 1/5</Text>
+        <Text style={style.position}>Question {questionIndex + 1}/5</Text>
         <View style={{ alignItems: "center", width: "100%" }}>
-          <Card question={question}>
-            <View style={{ gap: 10 }}>
-              {question.options.map((option) => {
-                return (
-                  <AnswerOption
-                    key={option}
-                    value={option}
-                    isSelected={selectedOption === option}
-                    onPress={handleSelectedOption}
-                  />
-                );
-              })}
+          {question ? (
+            <View>
+              <Card question={question}>
+                <View style={{ gap: 10 }}>
+                  {question.options.map((option) => {
+                    return (
+                      <AnswerOption
+                        key={option}
+                        value={option}
+                        isSelected={selectedOption === option}
+                        onPress={handleSelectedOption}
+                      />
+                    );
+                  })}
+                </View>
+              </Card>
+              <Text style={style.duration}>20sec</Text>
             </View>
-          </Card>
-          <Text style={style.duration}>20sec</Text>
+          ) : (
+            <Card title="Well done">
+              <View style={{ gap: 10 }}>
+                <Text>Correct answer: 2/5</Text>
+                <Text>Best score: 10</Text>
+              </View>
+            </Card>
+          )}
         </View>
 
         <CustomButton
-          title="Next"
-          onPress={handleCustomButtonPress}
+          title={questionIndex >= questions.length - 1 ? "Submit" : "Next"}
+          onPress={onNext}
           onLongPress={handleCustomButtonLongPress}
           rightIcon={
-            <MaterialCommunityIcons
-              name="arrow-right"
-              size={24}
-              color="white"
-            />
+            !(questionIndex >= questions.length - 1) ? (
+              <MaterialCommunityIcons
+                name="arrow-right"
+                size={24}
+                color="white"
+              />
+            ) : null
           }
         />
       </View>

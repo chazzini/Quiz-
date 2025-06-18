@@ -13,7 +13,11 @@ const AnswerOption = ({ value, isSelected, onPress }: AnswerOption) => {
       }}
       style={
         isSelected
-          ? { ...style.container, backgroundColor: "#e1f396" }
+          ? {
+              ...style.container,
+              backgroundColor: "#e1f396",
+              borderColor: "#e1f396",
+            }
           : { ...style.container }
       }
     >
